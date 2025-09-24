@@ -1,10 +1,18 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
+import { CatsService } from './cats.service';
+import { Cat } from './entidades/cats';
 
 @Controller('cats')
 class CatsController {
+  constructor(private readonly catsService: CatsService) {}
   @Get('/all')
-  findAll(): string {
-    return 'All cats';
+  findAll(): Cat[] {
+    return this.catsService.findAll();
+  }
+
+  @Post('/create')
+  create(cat: Cat): void {
+    this.catsService.create(cat);
   }
 }
 
