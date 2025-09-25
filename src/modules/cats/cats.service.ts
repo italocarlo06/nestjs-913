@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Cat } from './entidades/cats';
+import { CreateCatDto } from './dtos/create-cat.dto';
 
 @Injectable()
 class CatsService {
@@ -9,8 +10,16 @@ class CatsService {
     return this.cats;
   }
 
-  create(cat: Cat): void {
+  create(cat: CreateCatDto): Cat {
+    //Verficar se o gato já existe
+    const existCat = this.cats.find((c) => c.nome === cat.nome);
+
+    if (existCat) {
+      throw new BadRequestException('Gato já existe');
+    }
+    //Insere o gato no array
     this.cats.push(cat);
+    return cat;
   }
 }
 

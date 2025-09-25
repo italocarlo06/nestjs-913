@@ -1,6 +1,7 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { Cat } from './entidades/cats';
+import { CreateCatDto } from './dtos/create-cat.dto';
 
 @Controller('cats')
 class CatsController {
@@ -11,8 +12,8 @@ class CatsController {
   }
 
   @Post('/create')
-  create(cat: Cat): void {
-    this.catsService.create(cat);
+  create(@Body() cat: CreateCatDto): Cat {
+    return this.catsService.create(cat);
   }
 }
 
